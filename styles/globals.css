@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .headerLink {
+    @apply cursor-pointer opacity-75 transition hover:opacity-100;
+  }
+
+  .headerIcons {
+    @apply h-6 w-6 cursor-pointer opacity-75 transition hover:opacity-100;
+  }
+}
