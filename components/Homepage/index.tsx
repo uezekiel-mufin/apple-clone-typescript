@@ -1,7 +1,12 @@
 import React from "react";
+import Landing from "./Landing";
 
 const Index = () => {
-  return <div>This is the homepage</div>;
+  return (
+    <main className='relative h-[200vh] bg-[#E7ECEC]'>
+      <Landing />
+    </main>
+  );
 };
 
 export default Index;

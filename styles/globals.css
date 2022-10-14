@@ -18,4 +18,8 @@
   .headerIcons {
     @apply h-6 w-6 cursor-pointer opacity-75 transition hover:opacity-100;
   }
+
+  .link {
+    @apply relative cursor-pointer text-lg font-medium before:absolute before:inset-x-0 before:-bottom-1.5 before:h-0.5 before:origin-left before:scale-x-0 before:transform before:rounded-bl before:bg-black before:transition before:duration-300 before:ease-in-out hover:before:scale-x-100;
+  }
 }
