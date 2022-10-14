@@ -1,8 +1,12 @@
-import { GetServerSideProps } from "next";
 import React from "react";
-import Landing from "./Landing";
 
-const Index = () => {
+import Landing from "./Landing";
+import axios from "axios";
+import { fetchCategories } from "../../utils/fetchCategories";
+
+const Index = ({ categories }: CatProps) => {
+  console.log(categories);
+
   return (
     <>
       <main className='relative h-[200vh] bg-[#E7ECEC]'>
@@ -20,9 +24,3 @@ const Index = () => {
 };
 
 export default Index;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {},
-  };
-};

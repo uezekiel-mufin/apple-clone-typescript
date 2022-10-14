@@ -1,4 +1,3 @@
-import { ButtonProps } from "../Types/types";
 const Button = ({
   title,
   onClick,
@@ -12,7 +11,7 @@ const Button = ({
       <button
         className={`ease group relative z-30 box-border inline-flex ${
           width ? width : "w-auto"
-        } ${padding} cursor-pointer items-center justify-center overflow-hidden rounded rounded-lg bg-indigo-600 bg-gradient-to-r from-pink-500 to-violet-500 px-8 py-3 font-bold text-white transition-all duration-300 focus:outline-none`}
+        } ${padding} cursor-pointer items-center justify-center overflow-hidden rounded bg-indigo-600 bg-gradient-to-r from-pink-500 to-violet-500 px-8 py-3 font-bold text-white transition-all duration-300 focus:outline-none md:rounded-lg`}
       >
         <span className='ease absolute top-0 left-0 -mt-10 -ml-3 h-40 w-40 rounded-full bg-red-500 blur-md transition-all duration-700'></span>
         <span className='ease absolute inset-0 h-full w-full transition duration-700 group-hover:rotate-180'>
