@@ -41,25 +41,28 @@ const Index = ({ categories, products }: CatProps) => {
           <h1 className='text-center text-4xl font-medium tracking-wide text-white md:text-5xl'>
             New Promos
           </h1>
-          <div className='flex justify-center  border-[#35383C]'>
-            {categories.map((category) => (
-              <div
-                key={category._id}
-                className={`cursor-pointer whitespace-nowrap rounded-t-lg py-3 px-5 text-sm font-light outline-none md:py-4 md:px-6 md:text-base  ${
-                  selectedTab === category.title
-                    ? "borderGradient bg-[#35383c] text-white"
-                    : "border-b-2 border-[#35383C] text-[#747474]"
-                }`}
-                onClick={(e) => handleTabSet(e, category._id)}
-              >
-                {category.title}
-              </div>
-            ))}
-          </div>
-          <div>
-            {activeProducts.length > 1 && (
-              <SelectedProduct activeProducts={activeProducts} />
-            )}
+          <div className='flex flex-col items-center gap-16   border-[#35383C]'>
+            <div className='flex'>
+              {categories.map((category) => (
+                <div
+                  key={category._id}
+                  className={`cursor-pointer whitespace-nowrap rounded-t-lg py-3 px-5 text-sm font-light outline-none md:py-4 md:px-6 md:text-base  ${
+                    selectedTab === category.title
+                      ? "borderGradient bg-[#35383c] text-white"
+                      : "border-b-2 border-[#35383C] text-[#747474]"
+                  }`}
+                  onClick={(e) => handleTabSet(e, category._id)}
+                >
+                  {category.title}
+                </div>
+              ))}
+            </div>
+
+            <div>
+              {activeProducts.length > 1 && (
+                <SelectedProduct activeProducts={activeProducts} />
+              )}
+            </div>
           </div>
         </div>
       </section>
