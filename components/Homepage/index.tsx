@@ -1,16 +1,34 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import Landing from "./Landing";
-import axios from "axios";
-import { fetchCategories } from "../../utils/fetchCategories";
+import SelectedProduct from "./SelectedProduct";
 
-const Index = ({ categories }: CatProps) => {
-  console.log(categories);
-  const [selectedTab, setSelectedTab] = useState<string>("");
+const Index = ({ categories, products }: CatProps) => {
+  const [selectedTab, setSelectedTab] = useState<string | null>(
+    categories[0].title
+  );
+  const [activeCategory, setActiveCategory] = useState<string>("");
+  const [activeProducts, setActiveProducts] = useState<ProductsProps[]>([]);
 
-  const handleTabSet = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const el = e.target.textContent;
+  // setting the initial category to display
+  useEffect(() => {
+    const setCategory = () => {
+      setActiveCategory(categories[0]._id);
+      setActiveProducts(
+        products.filter((prod) => prod.categories._ref === categories[0]._id)
+      );
+    };
+    setCategory();
+  }, []);
+
+  // handling category change selection
+  const handleTabSet = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    id: string
+  ) => {
+    const el = (e.target as HTMLElement).textContent;
     setSelectedTab(el);
+    setActiveCategory(id);
+    setActiveProducts(products.filter((prod) => prod.categories._ref === id));
   };
 
   return (
@@ -32,11 +50,16 @@ const Index = ({ categories }: CatProps) => {
                     ? "borderGradient bg-[#35383c] text-white"
                     : "border-b-2 border-[#35383C] text-[#747474]"
                 }`}
-                onClick={(e) => handleTabSet(e)}
+                onClick={(e) => handleTabSet(e, category._id)}
               >
                 {category.title}
               </div>
             ))}
+          </div>
+          <div>
+            {activeProducts.length > 1 && (
+              <SelectedProduct activeProducts={activeProducts} />
+            )}
           </div>
         </div>
       </section>

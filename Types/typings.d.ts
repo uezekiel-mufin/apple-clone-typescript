@@ -38,12 +38,12 @@ interface ProductsProps {
   _updatedAt: string;
   _rev: string;
   _type: "product";
-  categories?: {
-    ref: string;
+  categories: {
+    _ref: string;
     _type: "reference";
   };
   price: number;
-  image?: Image[];
+  image: Image[];
   slug: {
     _type: "slug";
     current: string;
@@ -54,5 +54,13 @@ interface ProductsProps {
 
 interface CatProps {
   categories: CategoryProps[];
-  products: ProductsProps;
+  products: ProductsProps[];
+}
+
+type Data = {
+  products: ProductsProps[];
+};
+
+interface ActiveProductsProps {
+  activeProducts: ProductsProps[];
 }

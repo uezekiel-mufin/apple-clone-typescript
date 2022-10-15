@@ -6,9 +6,9 @@ import Index from "../components/Homepage";
 import { GetServerSideProps } from "next";
 import { fetchCategories } from "../utils/fetchCategories";
 import { fetchProducts } from "../utils/fetchProducts";
+import { convertDocToObj } from "../utils/convertToDoc";
 
 const Home = ({ categories, products }: CatProps) => {
-  // console.log(products);
   return (
     <Layout title='Apple Redesign'>
       <Index categories={categories} products={products} />
@@ -21,13 +21,13 @@ export const getServerSideProps: GetServerSideProps<CatProps> = async (
   context
 ) => {
   const categories = await fetchCategories();
-  const products = await fetchProducts();
-  console.log(products);
+  const { data } = await fetchProducts();
+  const { products } = data;
 
   return {
     props: {
       categories,
-      products,
+      products: products.map(convertDocToObj),
     },
   };
 };
