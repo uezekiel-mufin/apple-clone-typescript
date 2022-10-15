@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Landing from "./Landing";
 import axios from "axios";
@@ -6,6 +6,12 @@ import { fetchCategories } from "../../utils/fetchCategories";
 
 const Index = ({ categories }: CatProps) => {
   console.log(categories);
+  const [selectedTab, setSelectedTab] = useState<string>("");
+
+  const handleTabSet = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const el = e.target.textContent;
+    setSelectedTab(el);
+  };
 
   return (
     <>
@@ -17,6 +23,21 @@ const Index = ({ categories }: CatProps) => {
           <h1 className='text-center text-4xl font-medium tracking-wide text-white md:text-5xl'>
             New Promos
           </h1>
+          <div className='flex justify-center  border-[#35383C]'>
+            {categories.map((category) => (
+              <div
+                key={category._id}
+                className={`cursor-pointer whitespace-nowrap rounded-t-lg py-3 px-5 text-sm font-light outline-none md:py-4 md:px-6 md:text-base  ${
+                  selectedTab === category.title
+                    ? "borderGradient bg-[#35383c] text-white"
+                    : "border-b-2 border-[#35383C] text-[#747474]"
+                }`}
+                onClick={(e) => handleTabSet(e)}
+              >
+                {category.title}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

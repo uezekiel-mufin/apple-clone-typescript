@@ -22,4 +22,8 @@
   .link {
     @apply relative cursor-pointer text-lg font-medium before:absolute before:inset-x-0 before:-bottom-1.5 before:h-0.5 before:origin-left before:scale-x-0 before:transform before:rounded-bl before:bg-black before:transition before:duration-300 before:ease-in-out hover:before:scale-x-100;
   }
+
+  .borderGradient {
+    @apply bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] bg-[length:100%_4px] bg-left-bottom bg-no-repeat pb-[5px] text-center;
+  }
 }
