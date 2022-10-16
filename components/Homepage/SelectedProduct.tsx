@@ -16,7 +16,6 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
 
   return (
     <div className='grid grid-cols-1 gap-4 px-8 text-white transition-all duration-300 ease-linear sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
-      <Toaster />
       {activeProducts.map((product: ProductsProps) => (
         <div
           key={product._id}
