@@ -7,8 +7,11 @@ import {
   ShoppingBagIcon,
   UserIcon,
 } from "@heroicons/react/outline";
+import { useAppSelector } from "../redux/hooks";
 
 const Header = () => {
+  const cartItems = useAppSelector((state) => state.cartSlice.cart);
+  console.log(cartItems);
   const session = false;
   return (
     <header className='sticky top-0 z-30 flex w-full items-center justify-between bg-[#E7ECEC] p-4'>
@@ -32,14 +35,17 @@ const Header = () => {
       </div>
       <div className='flex items-center justify-center gap-x-4 md:w-1/5'>
         <SearchIcon className='headerIcons' />
-        <Link href='/checkout'>
-          <div className='relative cursor-pointer'>
-            <span className='absolute -right-1 -top-1 z-50 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-violet-500 text-[10px] text-white'>
-              5
-            </span>
-            <ShoppingBagIcon className='headerIcons' />
-          </div>
-        </Link>
+        {cartItems.length >= 1 && (
+          <Link href='/checkout'>
+            <div className='relative cursor-pointer'>
+              <span className='absolute -right-1 -top-1 z-50 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-violet-500 text-[10px] text-white'>
+                {cartItems.length}
+              </span>
+              <ShoppingBagIcon className='headerIcons' />
+            </div>
+          </Link>
+        )}
+
         {session ? (
           <Image
             src={

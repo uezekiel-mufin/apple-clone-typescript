@@ -2,11 +2,18 @@ import Image from "next/image";
 import React from "react";
 import { urlFor } from "../../sanity";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useAppDispatch } from "../../redux/hooks";
+import { addToCart } from "../../redux/cartSlice";
 
 const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
-  console.log(activeProducts);
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (item: ProductsProps) => {
+    dispatch(addToCart(item));
+  };
+
   return (
-    <div className='grid grid-cols-1 gap-4 px-8 text-white sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
+    <div className='grid grid-cols-1 gap-4 px-8 text-white transition-all duration-300 ease-linear sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
       {activeProducts.map((product: ProductsProps) => (
         <div
           key={product._id}
@@ -28,7 +35,10 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
               <h4>${product.price}</h4>
             </div>
             <button className='flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 p-3  text-white md:h-[70px] md:w-[70px]'>
-              <AiOutlineShoppingCart className='h-8 w-8' />
+              <AiOutlineShoppingCart
+                onClick={() => handleAddToCart(product)}
+                className='h-8 w-8'
+              />
             </button>
           </div>
         </div>
