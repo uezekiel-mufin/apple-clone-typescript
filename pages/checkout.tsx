@@ -16,6 +16,7 @@ const CheckoutPage = () => {
   if (ssr) {
     return;
   }
+
   return (
     <Layout title='checkout'>
       <main>

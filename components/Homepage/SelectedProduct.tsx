@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { urlFor } from "../../sanity";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useAppDispatch } from "../../redux/hooks";
@@ -8,9 +8,15 @@ import toast, { Toaster } from "react-hot-toast";
 
 const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
   const dispatch = useAppDispatch();
+  const [quantityOrdered, setQuantityOrdered] = useState<number>(1);
 
   const handleAddToCart = (item: ProductsProps) => {
-    dispatch(addToCart(item));
+    if (item.quantity <= 0) {
+      toast.error(`${item.title} is out of stock`);
+      return;
+    }
+    console.log(quantityOrdered);
+    dispatch(addToCart({ ...item, quantityOrdered }));
     toast.success(`${item.title} was added to your cart`);
   };
 
@@ -31,12 +37,37 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
             className=' rounded-2xl'
           />
           {/* </div> */}
-          <div className='flex items-center justify-between px-4'>
+          <div className='flex items-center justify-between'>
             <div>
-              <h3 className='capitalize'> {product.title}</h3>
+              <h3 className='text-sm capitalize'> {product.title}</h3>
               <h4>${product.price}</h4>
             </div>
-            <button className='flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 p-3  text-white md:h-[70px] md:w-[70px]'>
+            {product.quantity >= 1 && (
+              <select
+                onChange={(e) => {
+                  setQuantityOrdered(+(e.target as HTMLSelectElement).value);
+                  console.log(e.target.value);
+                  console.log(quantityOrdered);
+                }}
+                name=''
+                id=''
+                className='to rounded-full bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 px-2 text-white focus:outline-none'
+              >
+                {[...new Array(product.quantity + 1).keys()].map((item) => (
+                  <option
+                  // onChange={(e) => {
+                  //   setQuantityOrdered(
+                  //     +(e.target as HTMLSelectElement).value
+                  //   );
+                  //   console.log(quantityOrdered);
+                  // }}
+                  >
+                    {item + 1}
+                  </option>
+                ))}
+              </select>
+            )}
+            <button className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 p-3  text-white md:h-[50px] md:w-[50px]'>
               <AiOutlineShoppingCart
                 onClick={() => handleAddToCart(product)}
                 className='h-8 w-8'

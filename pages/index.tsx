@@ -10,6 +10,7 @@ import { convertDocToObj } from "../utils/convertToDoc";
 import { wrapper } from "../redux/store";
 
 const Home = ({ categories, products }: CatProps) => {
+  // console.log(products);
   return (
     <Layout title='Apple Redesign'>
       <Index categories={categories} products={products} />

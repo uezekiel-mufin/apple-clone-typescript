@@ -34,6 +34,7 @@ interface Image {
 }
 interface ProductsProps {
   _id: string;
+  quantity: number;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -50,6 +51,7 @@ interface ProductsProps {
   };
   title: string;
   description?: string;
+  quantityOrdered?: number;
 }
 
 interface CatProps {
