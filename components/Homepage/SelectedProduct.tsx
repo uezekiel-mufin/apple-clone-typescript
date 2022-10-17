@@ -57,9 +57,7 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
                 onChange={(e) => {
                   setQuantityOrdered(+(e.target as HTMLSelectElement).value);
                 }}
-                name=''
-                id=''
-                className='to rounded-full bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 px-2 text-white focus:outline-none'
+                className='to rounded-lg bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 text-white focus:outline-none md:px-2'
               >
                 {[...new Array(product.stock + 1).keys()].map((item) => (
                   <option key={item + 1}>{item + 1}</option>
