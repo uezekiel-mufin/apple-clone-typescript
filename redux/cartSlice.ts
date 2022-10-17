@@ -19,7 +19,7 @@ const cartSlice = createSlice({
         (item) => item._id === itemToAdd._id
       );
 
-      const newCart = existingItem
+      state.cart = existingItem
         ? state.cart.map((item) => {
             if (item._id === itemToAdd._id) {
               return itemToAdd;
@@ -27,7 +27,7 @@ const cartSlice = createSlice({
               return item;
             }
           })
-        : (state.cart = [...state.cart, itemToAdd]);
+        : [...state.cart, itemToAdd];
     },
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
       state.cart = state.cart.filter((item) => item._id !== action.payload.id);

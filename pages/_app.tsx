@@ -4,13 +4,14 @@ import { Provider } from "react-redux";
 import { wrapper } from "../redux/store";
 import { Toaster } from "react-hot-toast";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
   return (
-    <div>
+    <Provider store={store}>
       <Toaster />
-      <Component {...pageProps} />
-    </div>
+      <Component {...props.pageProps} />
+    </Provider>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

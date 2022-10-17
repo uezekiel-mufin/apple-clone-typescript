@@ -34,7 +34,7 @@ interface Image {
 }
 interface ProductsProps {
   _id: string;
-  quantity: number;
+  stock: number;
   _createdAt: string;
   _updatedAt: string;
   _rev: string;

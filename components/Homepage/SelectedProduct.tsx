@@ -2,22 +2,32 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { urlFor } from "../../sanity";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addToCart } from "../../redux/cartSlice";
 import toast, { Toaster } from "react-hot-toast";
 
 const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
   const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cartSlice.cart);
   const [quantityOrdered, setQuantityOrdered] = useState<number>(1);
 
   const handleAddToCart = (item: ProductsProps) => {
-    if (item.quantity <= 0) {
+    if (item.stock <= 0) {
       toast.error(`${item.title} is out of stock`);
       return;
     }
-    console.log(quantityOrdered);
+    if (quantityOrdered > item.stock) {
+      toast.error(`${item.title} is out of stock`);
+      return;
+    }
+    const existingItem = cartItems.find((product) => product._id === item._id);
+    if (existingItem) {
+      toast.success(`${item.title} has been updated in the cart`);
+    } else {
+      toast.success(`${item.title} was added to your cart`);
+    }
+    console.log(cartItems);
     dispatch(addToCart({ ...item, quantityOrdered }));
-    toast.success(`${item.title} was added to your cart`);
   };
 
   return (
@@ -42,28 +52,17 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
               <h3 className='text-sm capitalize'> {product.title}</h3>
               <h4>${product.price}</h4>
             </div>
-            {product.quantity >= 1 && (
+            {product.stock >= 1 && (
               <select
                 onChange={(e) => {
                   setQuantityOrdered(+(e.target as HTMLSelectElement).value);
-                  console.log(e.target.value);
-                  console.log(quantityOrdered);
                 }}
                 name=''
                 id=''
                 className='to rounded-full bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 px-2 text-white focus:outline-none'
               >
-                {[...new Array(product.quantity + 1).keys()].map((item) => (
-                  <option
-                  // onChange={(e) => {
-                  //   setQuantityOrdered(
-                  //     +(e.target as HTMLSelectElement).value
-                  //   );
-                  //   console.log(quantityOrdered);
-                  // }}
-                  >
-                    {item + 1}
-                  </option>
+                {[...new Array(product.stock + 1).keys()].map((item) => (
+                  <option key={item + 1}>{item + 1}</option>
                 ))}
               </select>
             )}
