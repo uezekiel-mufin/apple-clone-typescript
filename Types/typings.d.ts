@@ -9,7 +9,7 @@ interface ButtonProps {
   padding?: string;
   loading?: boolean;
   noIcon?: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 interface CategoryProps {

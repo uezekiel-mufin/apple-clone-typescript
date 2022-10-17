@@ -35,16 +35,16 @@ const Header = () => {
       </div>
       <div className='flex items-center justify-center gap-x-4 md:w-1/5'>
         <SearchIcon className='headerIcons' />
-        {cartItems.length >= 1 && (
-          <Link href='/checkout'>
-            <div className='relative cursor-pointer'>
+        <Link href='/checkout'>
+          <div className='relative cursor-pointer'>
+            {cartItems.length >= 1 && (
               <span className='absolute -right-1 -top-1 z-50 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-violet-500 text-[10px] text-white'>
                 {cartItems.length}
               </span>
-              <ShoppingBagIcon className='headerIcons' />
-            </div>
-          </Link>
-        )}
+            )}
+            <ShoppingBagIcon className='headerIcons' />
+          </div>
+        </Link>
 
         {session ? (
           <Image

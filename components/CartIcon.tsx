@@ -10,7 +10,7 @@ const CartIcon = () => {
     return;
   }
   return (
-    <Link href='/cart'>
+    <Link href='/checkout'>
       <div className='fixed bottom-10 right-10 z-50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-gray-300 transition-all duration-500 ease-linear'>
         <Link href='/checkout'>
           <div className='relative cursor-pointer'>

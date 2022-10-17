@@ -7,6 +7,7 @@ import { GetServerSideProps } from "next";
 import { fetchCategories } from "../utils/fetchCategories";
 import { fetchProducts } from "../utils/fetchProducts";
 import { convertDocToObj } from "../utils/convertToDoc";
+import { wrapper } from "../redux/store";
 
 const Home = ({ categories, products }: CatProps) => {
   return (
