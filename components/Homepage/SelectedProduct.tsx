@@ -49,7 +49,7 @@ const SelectedProduct = ({ activeProducts }: ActiveProductsProps) => {
           {/* </div> */}
           <div className='flex items-center justify-between'>
             <div>
-              <h3 className='text-sm capitalize'> {product.title}</h3>
+              <h5 className='text-sm capitalize'> {product.title}</h5>
               <h4>${product.price}</h4>
             </div>
             {product.stock >= 1 && (

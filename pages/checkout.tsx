@@ -9,6 +9,7 @@ import * as CurrencyFormat from "react-currency-format";
 import Image from "next/image";
 import { urlFor } from "../sanity";
 import { removeFromCart } from "../redux/cartSlice";
+import CheckoutSummary from "../components/CheckoutSummary";
 const CheckoutPage = () => {
   const router = useRouter();
   const [ssr, setSsr] = useState(true);
@@ -113,6 +114,10 @@ const CheckoutPage = () => {
                   <hr className='border-b border-solid border-gray-500' />
                 </div>
               ))}
+
+              <div>
+                <CheckoutSummary cartItems={cartItems} />
+              </div>
             </div>
           )}
         </div>
