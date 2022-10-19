@@ -132,6 +132,7 @@ interface CatProps {
 
 type Data = {
   products: ProductsProps[];
+  cartItems: ProductsProps[];
 };
 
 interface ActiveProductsProps {

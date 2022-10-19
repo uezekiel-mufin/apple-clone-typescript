@@ -1,9 +1,50 @@
+import React, { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import React from "react";
 import CurrencyFormat from "react-currency-format";
+import { loadStripe } from "@stripe/stripe-js";
 import Button from "./Button";
+import { fetchPostJSON } from "../utils/api-helpers";
+import { Stripe } from "stripe";
+import getStripe from "../get-stripejs";
 
-const CheckoutSummary = ({ cartItems }: ProductsProps[]) => {
+const CheckoutSummary = ({ cartItems }: Data) => {
+  const [loading, setLoading] = useState(false);
+  // calculating the prices of all the items in the cart
+  const itemsPrice = cartItems.reduce(
+    (acc: number, cur: ProductsProps) => acc + cur.price * cur.quantityOrdered,
+    0
+  );
+
+  const createCheckoutSession = async () => {
+    setLoading(true);
+    // const stripe = await loadStripe(
+    //   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+    // );
+
+    const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
+      `/api/getStripeSession`,
+      { cartItems }
+    );
+
+    // checking for internal server error
+    if ((checkoutSession as any).statusCode === 5000) {
+      console.error((checkoutSession as any).message);
+      return;
+    }
+
+    //Redirect to checkout
+    const stripe = await getStripe();
+    const { error } = await stripe!.redirectToCheckout({
+      // Make the id field from the checkout session creation API response
+      // available to this file, so you can provide it as a paramaeter here
+      /// instead of the {{CHECKOUT_SESSION_ID}} placeholder
+      sessionId: checkoutSession.id,
+    });
+
+    console.warn(error.message);
+    setLoading(false);
+  };
+
   return (
     <div className='my-12 mt-6 ml-auto max-w-3xl'>
       <div className='divide-y divide-gray-300'>
@@ -16,7 +57,7 @@ const CheckoutSummary = ({ cartItems }: ProductsProps[]) => {
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}
-                value={2553000}
+                value={itemsPrice}
               />
             </p>
           </div>
@@ -74,7 +115,12 @@ const CheckoutSummary = ({ cartItems }: ProductsProps[]) => {
               </span>
             </h4>
 
-            <Button title='Check out' width='w-full' />
+            <Button
+              loading={loading}
+              onClick={createCheckoutSession}
+              title='Check out'
+              width='w-full'
+            />
           </div>
         </div>
       </div>
