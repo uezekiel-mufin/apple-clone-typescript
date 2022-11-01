@@ -6,6 +6,7 @@ import Button from "./Button";
 import { fetchPostJSON } from "../utils/api-helpers";
 import { Stripe } from "stripe";
 import getStripe from "../get-stripejs";
+import axios from "axios";
 
 const CheckoutSummary = ({ cartItems }: Data) => {
   const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ const CheckoutSummary = ({ cartItems }: Data) => {
     (acc: number, cur: ProductsProps) => acc + cur.price * cur.quantityOrdered,
     0
   );
+  // console.log(cartItems);
 
   const createCheckoutSession = async () => {
     setLoading(true);
@@ -21,13 +23,17 @@ const CheckoutSummary = ({ cartItems }: Data) => {
     //   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
     // );
 
-    const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
-      `/api/getStripeSession`,
+    const checkoutSession: Stripe.Checkout.Session = await axios.post(
+      `api/getStripeSession`,
       { cartItems }
     );
+    // const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
+    //   `api/getStripeSession`,
+    //   { cartItems }
+    // );
 
     // checking for internal server error
-    if ((checkoutSession as any).statusCode === 5000) {
+    if ((checkoutSession as any).statusCode === 500) {
       console.error((checkoutSession as any).message);
       return;
     }
@@ -38,7 +44,7 @@ const CheckoutSummary = ({ cartItems }: Data) => {
       // Make the id field from the checkout session creation API response
       // available to this file, so you can provide it as a paramaeter here
       /// instead of the {{CHECKOUT_SESSION_ID}} placeholder
-      sessionId: checkoutSession.id,
+      sessionId: checkoutSession.data.id,
     });
 
     console.warn(error.message);
@@ -110,8 +116,12 @@ const CheckoutSummary = ({ cartItems }: Data) => {
             <h4 className='mb-4 flex flex-col text-xl font-semibold'>
               Pay in full
               <span>
-                {" "}
-                <CurrencyFormat value={250000} />
+                <CurrencyFormat // value={item.price * item.quantityOrdered}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  value={250000}
+                />
               </span>
             </h4>
 

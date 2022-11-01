@@ -11,6 +11,7 @@ import { urlFor } from "../sanity";
 import { removeFromCart } from "../redux/cartSlice";
 import CheckoutSummary from "../components/CheckoutSummary";
 const CheckoutPage = () => {
+  const [newQuantity, setNewQuantity] = useState();
   const router = useRouter();
   const [ssr, setSsr] = useState(true);
   useEffect(() => {
@@ -32,7 +33,7 @@ const CheckoutPage = () => {
       <main className=' flex min-h-screen justify-center  bg-[#E7ECee] px-8 pb-24'>
         <div className='mx-auto w-full max-w-4xl '>
           <div>
-            <h1>
+            <div>
               {cartItems.length >= 1 ? (
                 <h1 className='my-8 mb-8 w-full text-3xl font-semibold lg:text-4xl '>
                   Review your shopping list <br />
@@ -50,7 +51,7 @@ const CheckoutPage = () => {
                   />
                 </h2>
               )}
-            </h1>
+            </div>
           </div>
           {cartItems.length > 0 && (
             <div className=' max-w-5xl space-y-8 '>
@@ -79,13 +80,18 @@ const CheckoutPage = () => {
                         <div>
                           <select
                             name=''
-                            value={item.quantityOrdered}
                             id=''
                             className='to rounded-lg bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 px-2 text-sm text-white focus:outline-none'
+                            onChange={(e) => setNewQuantity(e.target.value)}
                           >
                             {[...new Array(item.stock + 1).keys()].map(
                               (numb) => (
-                                <option key={numb + 1}>{numb}</option>
+                                <option
+                                  key={numb + 1}
+                                  value={item.quantityOrdered}
+                                >
+                                  {numb}
+                                </option>
                               )
                             )}
                           </select>

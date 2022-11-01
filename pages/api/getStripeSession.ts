@@ -4,7 +4,7 @@ import { urlFor } from "../../sanity";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   //https://github.com/stripe/stripe-node#configuration
-  apiVersion: "2022-10-10",
+  apiVersion: "2022-08-01",
 });
 
 export default async function handler(
@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const cartItems: ProductsProps[] = req.body.items;
+    const { cartItems }: Data2 = req.body;
 
     //this is the shape in which stripe expects the data to be in
 
@@ -39,7 +39,7 @@ export default async function handler(
         line_items: transformationData,
         payment_intent_data: {},
         mode: "payment",
-        success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION}`,
+        success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/checkout`,
         metadata: {
           images: JSON.stringify(

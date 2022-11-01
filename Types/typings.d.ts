@@ -134,6 +134,9 @@ type Data = {
   products: ProductsProps[];
   cartItems: ProductsProps[];
 };
+type Data2 = {
+  cartItems: ProductsProps[];
+};
 
 interface ActiveProductsProps {
   activeProducts: ProductsProps[];
