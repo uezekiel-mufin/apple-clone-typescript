@@ -3,15 +3,15 @@ import Layout from "../components/Layout";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import Link from "next/link";
 import Button from "../components/Button";
-import * as CurrencyFormat from "react-currency-format";
 import Image from "next/image";
 import { urlFor } from "../sanity";
 import { removeFromCart } from "../redux/cartSlice";
 import CheckoutSummary from "../components/CheckoutSummary";
+import Currency from "react-currency-formatter";
+
 const CheckoutPage = () => {
-  const [newQuantity, setNewQuantity] = useState();
+  const [newQuantity, setNewQuantity] = useState<string>("");
   const router = useRouter();
   const [ssr, setSsr] = useState(true);
   useEffect(() => {
@@ -103,11 +103,9 @@ const CheckoutPage = () => {
                       </p>
                     </div>
                     <div className='flex flex-col gap-4'>
-                      <CurrencyFormat
-                        value={item.price * item.quantityOrdered}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        prefix={"$"}
+                      <Currency
+                        quantity={item.price * item.quantityOrdered}
+                        currency='USD'
                       />
                       <button
                         className='text-blue-500'

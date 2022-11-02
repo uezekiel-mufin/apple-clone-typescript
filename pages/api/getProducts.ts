@@ -9,7 +9,7 @@ const query = groq`*[_type == 'product']{
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data3>
 ) {
   const products = await sanityClient.fetch(query);
 

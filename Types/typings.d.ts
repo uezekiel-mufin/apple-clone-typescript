@@ -9,7 +9,7 @@ interface ButtonProps {
   padding?: string;
   loading?: boolean;
   noIcon?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 interface CategoryProps {
@@ -62,6 +62,9 @@ interface CatProps {
 type Data = {
   products: ProductsProps[];
   cartItems: ProductsProps[];
+};
+type Data3 = {
+  products: ProductsProps[];
 };
 type Data2 = {
   cartItems: ProductsProps[];

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CartIcon from "../CartIcon";
+import CartIconScreen from "../CartIcon";
+
 import Landing from "./Landing";
 import SelectedProduct from "./SelectedProduct";
 
@@ -33,12 +34,12 @@ const Index = ({ categories, products }: CatProps) => {
   };
 
   return (
-    <>
+    <div>
       <main className='relative h-[200vh] bg-[#E7ECEC]'>
         <Landing />
       </main>
       <section className='relative z-40 -mt-[100vh] min-h-screen bg-[#1B1B1B]'>
-        <CartIcon />
+        <CartIconScreen />
         <div className='space-y-10 py-16'>
           <h1 className='text-center text-4xl font-medium tracking-wide text-white md:text-5xl'>
             New Promos
@@ -68,7 +69,7 @@ const Index = ({ categories, products }: CatProps) => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

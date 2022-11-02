@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Button from "../BUtton";
+import Button from "../Button";
 
 const Landing = () => {
   return (

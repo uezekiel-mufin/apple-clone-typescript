@@ -3,12 +3,13 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import CurrencyFormat from "react-currency-format";
 import { loadStripe } from "@stripe/stripe-js";
 import Button from "./Button";
-import { fetchPostJSON } from "../utils/api-helpers";
+
 import { Stripe } from "stripe";
 import getStripe from "../get-stripejs";
 import axios from "axios";
+import { fetchPostJSON } from "../utils/api-helpers";
 
-const CheckoutSummary = ({ cartItems }: Data) => {
+const CheckoutSummary = ({ cartItems }: Data2) => {
   const [loading, setLoading] = useState(false);
   // calculating the prices of all the items in the cart
   const itemsPrice = cartItems.reduce(
@@ -19,18 +20,10 @@ const CheckoutSummary = ({ cartItems }: Data) => {
 
   const createCheckoutSession = async () => {
     setLoading(true);
-    // const stripe = await loadStripe(
-    //   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-    // );
-
-    const checkoutSession: Stripe.Checkout.Session = await axios.post(
+    const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
       `api/getStripeSession`,
       { cartItems }
     );
-    // const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
-    //   `api/getStripeSession`,
-    //   { cartItems }
-    // );
 
     // checking for internal server error
     if ((checkoutSession as any).statusCode === 500) {
@@ -44,7 +37,7 @@ const CheckoutSummary = ({ cartItems }: Data) => {
       // Make the id field from the checkout session creation API response
       // available to this file, so you can provide it as a paramaeter here
       /// instead of the {{CHECKOUT_SESSION_ID}} placeholder
-      sessionId: checkoutSession.data.id,
+      sessionId: checkoutSession.id,
     });
 
     console.warn(error.message);
@@ -105,7 +98,10 @@ const CheckoutSummary = ({ cartItems }: Data) => {
                 $283.16/mo. at 0% APR <sup className='-top-1'></sup>
               </span>
             </h4>
-            <Button title='Check out with Apple Card' onClick='' />
+            <Button
+              title='Check out with Apple Card'
+              onClick={() => console.log("yes")}
+            />
             <p className='mt-2 max-w-[240px] text-[13px]'>
               $0.00 due today, which includes applicable full-price items, down
               payments, shipping, and taxes
@@ -120,7 +116,7 @@ const CheckoutSummary = ({ cartItems }: Data) => {
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
-                  value={250000}
+                  value={itemsPrice}
                 />
               </span>
             </h4>

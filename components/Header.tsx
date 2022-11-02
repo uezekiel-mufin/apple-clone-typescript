@@ -11,9 +11,10 @@ import { useAppSelector } from "../redux/hooks";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
   const cartItems = useAppSelector((state) => state.cartSlice.cart);
   console.log(cartItems);
-  const session = false;
+
   return (
     <header className='sticky top-0 z-30 flex w-full items-center justify-between bg-[#E7ECEC] p-4'>
       <div className='flex items-center justify-center md:w-1/5'>
@@ -50,16 +51,17 @@ const Header = () => {
         {session ? (
           <Image
             src={
-              // session.user?.image ||
+              session.user?.image ||
               "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
             }
             alt=''
             className='cursor-pointer rounded-full'
             width={34}
             height={34}
+            onClick={() => signOut()}
           />
         ) : (
-          <UserIcon className='headerIcons' onClick={() => signIn()} />
+          <UserIcon className='headerIcons' onClick={() => signIn("google")} />
         )}
       </div>
     </header>
