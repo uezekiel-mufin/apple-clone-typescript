@@ -1,15 +1,19 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import Layout from "../components/Layout";
 import Index from "../components/Homepage";
 import { GetServerSideProps } from "next";
 import { fetchCategories } from "../utils/fetchCategories";
 import { fetchProducts } from "../utils/fetchProducts";
 import { convertDocToObj } from "../utils/convertToDoc";
-import { wrapper } from "../redux/store";
+import type { Session } from "next-auth";
+import { getSession } from "next-auth/react";
 
-const Home = ({ categories, products }: CatProps) => {
+interface CatPropsHome {
+  categories: CategoryProps[];
+  products: ProductsProps[];
+  session: Session | null;
+}
+
+const Home = ({ categories, products }: CatPropsHome) => {
   // console.log(products);
   return (
     <Layout title='Apple Redesign'>
@@ -22,6 +26,7 @@ export default Home;
 export const getServerSideProps: GetServerSideProps<CatProps> = async (
   context
 ) => {
+  const session = await getSession(context);
   const categories = await fetchCategories();
   const { data } = await fetchProducts();
   const { products } = data;
@@ -30,6 +35,7 @@ export const getServerSideProps: GetServerSideProps<CatProps> = async (
     props: {
       categories,
       products: products.map(convertDocToObj),
+      session,
     },
   };
 };

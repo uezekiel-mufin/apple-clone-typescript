@@ -8,6 +8,7 @@ import {
   UserIcon,
 } from "@heroicons/react/outline";
 import { useAppSelector } from "../redux/hooks";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   const cartItems = useAppSelector((state) => state.cartSlice.cart);
@@ -58,7 +59,7 @@ const Header = () => {
             height={34}
           />
         ) : (
-          <UserIcon className='headerIcons' />
+          <UserIcon className='headerIcons' onClick={() => signIn()} />
         )}
       </div>
     </header>

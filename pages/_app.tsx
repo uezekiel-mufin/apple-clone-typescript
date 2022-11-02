@@ -1,16 +1,25 @@
 import "../styles/globals.css";
+import { Session } from "next-auth";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { wrapper } from "../redux/store";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, ...rest }: AppProps) {
-  const { store, props } = wrapper.useWrappedStore(rest);
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps<{
+  session: Session;
+}>) {
+  const { store, props } = wrapper.useWrappedStore(pageProps);
   return (
-    <Provider store={store}>
-      <Toaster />
-      <Component {...props.pageProps} />
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <Toaster />
+        <Component {...pageProps} />
+      </Provider>
+    </SessionProvider>
   );
 }
 
