@@ -6,9 +6,10 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import Button from "../components/Button";
 import Image from "next/image";
 import { urlFor } from "../sanity";
-import { removeFromCart } from "../redux/cartSlice";
+import { removeFromCart, updateQty } from "../redux/cartSlice";
 import CheckoutSummary from "../components/CheckoutSummary";
 import Currency from "react-currency-formatter";
+import toast from "react-hot-toast";
 
 const CheckoutPage = () => {
   const [newQuantity, setNewQuantity] = useState<string>("");
@@ -28,6 +29,18 @@ const CheckoutPage = () => {
     dispatch(removeFromCart({ id }));
   };
 
+  console.log(cartItems);
+
+  const handleQtyUpdate = (value: string, item: ProductsProps) => {
+    const numb = parseInt(value);
+    const existingItem = cartItems.find((prod) => prod._id === item._id);
+    if (existingItem && existingItem.stock < numb) {
+      toast.error("This item is out of stock");
+      return;
+    }
+    dispatch(updateQty({ ...item, numb }));
+  };
+
   return (
     <Layout title='checkout'>
       <main className=' flex min-h-screen justify-center  bg-[#E7ECee] px-8 pb-24'>
@@ -38,7 +51,6 @@ const CheckoutPage = () => {
                 <h1 className='my-8 mb-8 w-full text-3xl font-semibold lg:text-4xl '>
                   Review your shopping list <br />
                   <span className='text-base font-normal'>
-                    {" "}
                     Free delivery and free return
                   </span>
                 </h1>
@@ -79,21 +91,19 @@ const CheckoutPage = () => {
                         </h4>
                         <div>
                           <select
-                            name=''
-                            id=''
+                            value={item.quantityOrdered}
                             className='to rounded-lg bg-indigo-500 bg-gradient-to-r from-pink-600 bg-clip-border p-1 px-2 text-sm text-white focus:outline-none'
-                            onChange={(e) => setNewQuantity(e.target.value)}
+                            onChange={(e) =>
+                              handleQtyUpdate(e.target.value, item)
+                            }
                           >
-                            {[...new Array(item.stock + 1).keys()].map(
-                              (numb) => (
-                                <option
-                                  key={numb + 1}
-                                  value={item.quantityOrdered}
-                                >
+                            {[...new Array(item.stock + 3).keys()]
+                              .slice(1)
+                              .map((numb) => (
+                                <option key={numb} value={numb}>
                                   {numb}
                                 </option>
-                              )
-                            )}
+                              ))}
                           </select>
                         </div>
                       </div>

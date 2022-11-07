@@ -25,7 +25,7 @@ export default async function handler(
         },
         unit_amount: item.price * 100,
       },
-      quantity: 1,
+      quantity: item.quantityOrdered,
     }));
 
     try {

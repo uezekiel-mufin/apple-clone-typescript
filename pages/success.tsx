@@ -31,9 +31,10 @@ const Success = ({ products }: Props) => {
   }, []);
 
   const subtotal = products.reduce(
-    (acc, product) => acc + product.price.unit_amount / 100,
+    (acc, product) => acc + product.amount_subtotal,
     0
   );
+  console.log(products);
   const { data: session } = useSession();
 
   //showOrderSummary always true for desktop but only conditionally true for mobile
@@ -183,7 +184,7 @@ const Success = ({ products }: Props) => {
                       </div>
                       <p className='flex-1'>{product.description}</p>
                       <p>
-                        <CurrencyFormat // value={item.price * item.quantityOrdered}
+                        <CurrencyFormat
                           displayType={"text"}
                           thousandSeparator={true}
                           prefix={"$"}
@@ -213,7 +214,7 @@ const Success = ({ products }: Props) => {
                   <div className='flex justify-between text-sm'>
                     <p className='text-[gray]'>Shipping</p>
                     <p className='font-medium'>
-                      <CurrencyFormat // value={item.price * item.quantityOrdered}
+                      <CurrencyFormat
                         displayType={"text"}
                         thousandSeparator={true}
                         prefix={"$"}

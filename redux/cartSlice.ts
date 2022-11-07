@@ -32,9 +32,20 @@ const cartSlice = createSlice({
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
       state.cart = state.cart.filter((item) => item._id !== action.payload.id);
     },
+    updateQty: (state, action) => {
+      const { numb, _id } = action.payload;
+      const existItem = state.cart.find((item) => item._id === _id);
+      if (existItem) {
+        console.log(existItem);
+        existItem.quantityOrdered = numb;
+      } else {
+        console.log("not exist");
+      }
+    },
     emptyCart: (state, action) => {},
   },
 });
 
 export default cartSlice.reducer;
-export const { addToCart, removeFromCart, emptyCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, emptyCart, updateQty } =
+  cartSlice.actions;

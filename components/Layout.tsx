@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = ({ children, title }: LayoutType) => {
@@ -12,9 +11,6 @@ const Layout = ({ children, title }: LayoutType) => {
       </Head>
       <Header />
       <main>{children}</main>
-      <footer>
-        <Footer />
-      </footer>
     </div>
   );
 };

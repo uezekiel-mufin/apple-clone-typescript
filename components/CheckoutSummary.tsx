@@ -8,6 +8,7 @@ import { Stripe } from "stripe";
 import getStripe from "../get-stripejs";
 import axios from "axios";
 import { fetchPostJSON } from "../utils/api-helpers";
+import { privateDecrypt } from "crypto";
 
 const CheckoutSummary = ({ cartItems }: Data2) => {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,12 @@ const CheckoutSummary = ({ cartItems }: Data2) => {
     console.warn(error.message);
     setLoading(false);
   };
-
+  const totalPrize = cartItems.reduce(
+    (acc, cur) => acc + cur.price * cur.quantityOrdered,
+    0
+  );
+  const taxPrize = totalPrize > 2000 ? totalPrize * 0.008 : totalPrize * 0.01;
+  console.log(taxPrize);
   return (
     <div className='my-12 mt-6 ml-auto max-w-3xl'>
       <div className='divide-y divide-gray-300'>
@@ -52,7 +58,6 @@ const CheckoutSummary = ({ cartItems }: Data2) => {
             <p>Subtotal</p>
             <p>
               <CurrencyFormat
-                // value={item.price * item.quantityOrdered}
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}
@@ -68,18 +73,26 @@ const CheckoutSummary = ({ cartItems }: Data2) => {
                 <ChevronDownIcon className='h-6 w-6' />
               </p>
             </div>
-            <p>$ -</p>
+            <p>
+              {" "}
+              <CurrencyFormat
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                value={taxPrize.toFixed(2)}
+              />
+            </p>
           </div>
         </div>
 
         <div className='flex justify-between pt-4 text-xl font-semibold'>
           <h4>Total</h4>
           <h4>
-            <CurrencyFormat // value={item.price * item.quantityOrdered}
+            <CurrencyFormat
               displayType={"text"}
               thousandSeparator={true}
               prefix={"$"}
-              value={250000}
+              value={itemsPrice + taxPrize}
             />
           </h4>
         </div>
@@ -112,11 +125,11 @@ const CheckoutSummary = ({ cartItems }: Data2) => {
             <h4 className='mb-4 flex flex-col text-xl font-semibold'>
               Pay in full
               <span>
-                <CurrencyFormat // value={item.price * item.quantityOrdered}
+                <CurrencyFormat
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
-                  value={itemsPrice}
+                  value={itemsPrice + taxPrize}
                 />
               </span>
             </h4>
