@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import CurrencyFormat from "react-currency-format";
-import { loadStripe } from "@stripe/stripe-js";
 import Button from "./Button";
-
 import { Stripe } from "stripe";
 import getStripe from "../get-stripejs";
-import axios from "axios";
 import { fetchPostJSON } from "../utils/api-helpers";
-import { privateDecrypt } from "crypto";
 
 const CheckoutSummary = ({ cartItems }: Data2) => {
   const [loading, setLoading] = useState(false);

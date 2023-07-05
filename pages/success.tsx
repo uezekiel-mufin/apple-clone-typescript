@@ -152,7 +152,7 @@ const Success = ({ products }: Props) => {
                 </button>
 
                 <p className='text-xl font-medium text-black'>
-                  <CurrencyFormat // value={item.price * item.quantityOrdered}
+                  <CurrencyFormat
                     displayType={"text"}
                     thousandSeparator={true}
                     prefix={"$"}
